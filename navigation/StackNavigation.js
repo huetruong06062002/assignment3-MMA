@@ -1,35 +1,45 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "../screen/HomeScreen";
+import FaveriteScreen from "../screen/FaveriteScreen";
+import DetailScreen from "../screen/DetailScreen";
 
+const Stack = createStackNavigator();
 
-
-
-const stack = createStackNavigator();
-
-//stack nay cho home page
+// Stack for home page
 const HomeStack = () => {
   return (
-    <stack.Navigator>
-      <stack.Screen name="Home" component={HomeScreen} />
-    </stack.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="HomeScreen" 
+        component={HomeScreen} 
+      />
+    </Stack.Navigator>
   );
 }
 
-//stack nay cho product detail
+// Stack for product detail
 const DetailStack = () => {
-    return (
-        <stack.Navigator>
-            <stack.Screen name="Detail" component={DetailScreen} />
-        </stack.Navigator>
-    );
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="DetailScreen" 
+        component={DetailScreen} 
+      />
+    </Stack.Navigator>
+  );
 }
 
-// Stack này cho favorite list product
+// Stack for favorite list product
 const FavoriteStack = () => {
-    return(
-        <stack.Navigator>
-            <stack.Screen name="Favorite" component={FavoriteScreen} />
-        </stack.Navigator>
-    )
+  return (
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="FaveriteScreen" 
+        component={FaveriteScreen} 
+      />
+    </Stack.Navigator>
+  );
 }
 
+export { HomeStack, DetailStack, FavoriteStack };
