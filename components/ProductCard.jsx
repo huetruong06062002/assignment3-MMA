@@ -58,102 +58,102 @@ const ProductCard = ({ item }) => {
   };
 
   return (
-       <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("Detail Product", {
-          productTypeId: item.id,
-        })
-      }
-      className="w-[180px] h-[280px] m-[15px] flex flex-col rounded-md overflow-hidden"
-    >
-      <View style={{ position: "relative", width: "100%", height: "66%" }}>
-        <Image
-          source={{ uri: item.image }}
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: 3,
-            backgroundColor: "#E4E4E4",
-          }}
-          resizeMode="cover"
-        />
-        {item.limitedTimeDeal > 0 && (
-          <View
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("Detail Product", {
+            productTypeId: item.id,
+          })
+        }
+        style={{ boxShadow: "10px 10px rgba(0, 0, 0, 0.1)" }}
+        className="w-[180px] h-[280px] m-[15px] flex flex-col rounded-md overflow-hidden"
+      >
+        <View style={{ position: "relative", width: "100%", height: "66%" }}>
+          <Image
+            source={{ uri: item.image }}
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: 3,
+              backgroundColor: "#E4E4E4",
+            }}
+            resizeMode="cover"
+          />
+          {item.limitedTimeDeal > 0 && (
+            <View
+              style={{
+                position: "absolute",
+                top: 5,
+                left: 5,
+                backgroundColor: "#e91e63",
+                padding: 5,
+                borderRadius: 3,
+              }}
+            >
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                {item.limitedTimeDeal * 100}% OFF
+              </Text>
+            </View>
+          )}
+          <TouchableOpacity
             style={{
               position: "absolute",
               top: 5,
-              left: 5,
-              backgroundColor: "#e91e63",
-              padding: 5,
-              borderRadius: 3,
+              right: 5,
             }}
+            onPress={handleFavoritePress}
           >
-            <Text style={{ color: "white", fontWeight: "bold" }}>
-              {item.limitedTimeDeal * 100}% OFF
-            </Text>
-          </View>
-        )}
-        <TouchableOpacity
+            <AntDesign
+              name="hearto"
+              size={24}
+              color={isFavorite ? "red" : "black"}
+            />
+          </TouchableOpacity>
+        </View>
+        <View
           style={{
-            position: "absolute",
-            top: 5,
-            right: 5,
+            width: "100%",
+            height: "40%",
+            paddingVertical: 5,
+            paddingHorizontal: 10,
+            backgroundColor: "white",
+            borderBottomLeftRadius: 8,
+            borderBottomRightRadius: 8,
           }}
-          onPress={handleFavoritePress}
         >
-          <AntDesign
-            name="hearto"
-            size={24}
-            color={isFavorite ? "red" : "black"}
-          />
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          width: "100%",
-          height: "40%",
-          paddingVertical: 5,
-          paddingHorizontal: 10,
-          backgroundColor: "white",
-          borderBottomLeftRadius: 8,
-          borderBottomRightRadius: 8,
-        }}
-        className="shadow-inner"
-      >
-        <Text
-          style={{ fontWeight: "bold", fontSize: 16 }}
-          numberOfLines={1}
-          ellipsizeMode="tail"
-        >
-          {item.artName}
-        </Text>
-        {item.limitedTimeDeal > 0 ? (
-          <View className="flex flex-row items-center mt-1">
-            <Text className="font-bold text-gray-500 line-through mr-2">
-              {formattedOldPrice}
-            </Text>
-            <Text className="font-bold text-pink-500 text-[16px]">
+          <Text
+            style={{ fontWeight: "bold", fontSize: 16 }}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {item.artName}
+          </Text>
+          {item.limitedTimeDeal > 0 ? (
+            <View className="flex flex-row items-center mt-1">
+              <Text className="font-bold text-gray-500 line-through mr-2">
+                {formattedOldPrice}
+              </Text>
+              <Text className="font-bold text-pink-500 text-[16px]">
+                {formattedPrice}
+              </Text>
+            </View>
+          ) : (
+            <Text className="font-bold text-pink-500 mt-1 text-[16px]">
               {formattedPrice}
             </Text>
-          </View>
-        ) : (
-          <Text className="font-bold text-pink-500 mt-1 text-[16px]">
-            {formattedPrice}
-          </Text>
-        )}
-        <View className="flex flex-row items-center justify-between my-4">
-          <View className="lex flex-row items-center">
-            <Rating
-              ratingCount={1}
-              readonly={false}
-              imageSize={15}
-              startingValue={1}
-            />
-            <Text className="ml-1">{averageRating} Rating</Text>
+          )}
+          <View className="flex flex-row items-center justify-between my-4">
+            <View className="lex flex-row items-center">
+              <Rating
+                ratingCount={1}
+                readonly={false}
+                imageSize={15}
+                startingValue={1}
+              />
+              <Text className="ml-1">{averageRating} Rating</Text>
+            </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
   );
 };
 

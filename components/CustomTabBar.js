@@ -4,7 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   return (
-    <View style={{ flexDirection: 'row', height: 80, backgroundColor: "white" }}>
+    <View style={{ flexDirection: 'row', height: 60, backgroundColor: "white" }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -50,7 +50,6 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
               justifyContent: 'center', 
               borderTopWidth: isFocused ? 2 : 0, 
               borderTopColor: isFocused ? 'green' : 'transparent', 
-              paddingBottom: 5,
             }}
           >
             <MaterialIcons name={options.tabBarIconName} color={isFocused ? 'green' : 'gray'} size={24} />

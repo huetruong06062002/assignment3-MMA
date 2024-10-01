@@ -53,7 +53,7 @@ function HomeScreen() {
         ? product.brand === selectedCategory
         : true;
       const matchesSearch = search
-        ? product.name.toLowerCase().includes(search.toLowerCase())
+        ? product.artName.toLowerCase().includes(search.toLowerCase())
         : true;
       return matchesCategory && matchesSearch;
     });
@@ -96,25 +96,6 @@ function HomeScreen() {
 
   const ListHeaderComponent = () => (
     <>
-      {/* Search bar */}
-      <View className="flex-row justify-between items-center mx-4 py-2">
-        <View className="flex-row items-center px-2 border border-gray-300 rounded-md w-full bg-white mb-2 shadow">
-          <TextInput
-            placeholder="Search something..."
-            value={search}
-            onChangeText={setSearch}
-            className="flex-1 p-1 h-[45px]"
-          />
-          {search ? (
-            <TouchableOpacity onPress={() => setSearch("")}>
-              <Icon name="closecircle" size={20} className="ml-1" />
-            </TouchableOpacity>
-          ) : (    
-              <Icon name="search1" size={20} className="ml-1" />
-          )}
-        </View>
-      </View>
-
       {/* Banner */}
       <View className="py-3">
         <FlatList
@@ -161,26 +142,47 @@ function HomeScreen() {
   }
 
   return (
-    <View>
-      <FlatList
-        data={filteredProducts}
-        keyExtractor={(item) => item.id}
-        numColumns={numColumns}
-        columnWrapperStyle={{ justifyContent: "space-between" }}
-        renderItem={renderProductItem}
-        ListHeaderComponent={ListHeaderComponent}
-        ListEmptyComponent={
-          <View className="flex-1 justify-center items-center">
-            <Text className="text-lg">No product found</Text>
-          </View>
-        }
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        showsVerticalScrollIndicator={false}
-        className="by-4"
-      />
-    </View>
+    <View className="flex-1">
+      {/* Search bar */}
+      <View className="flex-row justify-between items-center px-3 pb-2 pt-4">
+        <View className="flex-row items-center px-2 border border-gray-300 rounded-md w-full bg-white mb-2 shadow">
+          <TextInput
+            placeholder="Search something..."
+            value={search}
+            onChangeText={setSearch}
+            className="flex-1 p-1 h-[45px]"
+          />
+          {search ? (
+            <TouchableOpacity onPress={() => setSearch("")}>
+              <Icon name="closecircle" size={20} className="ml-1" />
+            </TouchableOpacity>
+          ) : (
+            <Icon name="search1" size={20} className="ml-1" />
+          )}
+        </View>
+      </View>
+
+      {/* Product list */}
+        <FlatList
+          data={filteredProducts}
+          keyExtractor={(item) => item.id}
+          numColumns={numColumns}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
+          renderItem={renderProductItem}
+          ListHeaderComponent={ListHeaderComponent}
+          ListEmptyComponent={
+            <View className="flex-1 justify-center items-center pt-32 space-y-4">
+              <Text className="text-lg">No product found</Text>
+              <View className="flex-1 justify-center items-center pt-32"></View>
+            </View>
+          }
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          showsVerticalScrollIndicator={false}
+          
+        />
+      </View>
   );
 }
 
