@@ -1,50 +1,45 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { HomeStack, FavoriteStack, DetailStack } from "./StackNavigation";
+import { HomeStack, FavoriteStack } from "./StackNavigation";
 import { MaterialIcons } from "@expo/vector-icons";
+import { enableScreens } from 'react-native-screens';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import CustomTabBar from '../components/CustomTabBar.js'; 
+
+enableScreens();
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigation = () => {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "gray",
-        unmountOnBlur: true,
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeStack}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="home" color={color} size={size} />
-          ),
+    <GestureHandlerRootView style={{ flex: 1 }} >
+      <Tab.Navigator
+        tabBar={props => <CustomTabBar {...props} />}
+        screenOptions={{
+          tabBarActiveTintColor: "green",
+          tabBarInactiveTintColor: "gray",
+          unmountOnBlur: true,
+          swipeEnabled: true, // Enable swipe gestures 
         }}
-      />
-      <Tab.Screen
-        name="Detail"
-        component={DetailStack}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="info" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Favorite"
-        component={FavoriteStack}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="favorite" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="Home"
+          component={HomeStack}
+          options={{
+            headerShown: false,  
+            tabBarIconName: "home",
+          }}
+        />
+        <Tab.Screen
+          name="Wishlist"
+          component={FavoriteStack}
+          options={{
+            headerShown: false,
+            tabBarIconName: "favorite",
+          }}
+        />
+      </Tab.Navigator>
+    </GestureHandlerRootView>
   );
 };
 

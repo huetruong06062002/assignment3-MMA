@@ -7,39 +7,57 @@ import DetailScreen from "../screen/DetailScreen";
 const Stack = createStackNavigator();
 
 // Stack for home page
-const HomeStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen 
-        name="HomeScreen" 
-        component={HomeScreen} 
-      />
-    </Stack.Navigator>
-  );
-}
-
-// Stack for product detail
-const DetailStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen 
-        name="DetailScreen" 
-        component={DetailScreen} 
-      />
-    </Stack.Navigator>
-  );
-}
+const HomeStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      gestureEnabled: true,
+    }}
+  >
+    <Stack.Screen
+      name="Mega Mall"
+      component={HomeScreen}
+      options={{
+        headerTitleAlign: "center",
+      }}
+    />
+    <Stack.Screen
+      name="Detail Product"
+      component={DetailScreen}
+      options={{
+        headerTitleAlign: "center",
+        headerBackTitleVisible: false,
+      }}
+    />
+  </Stack.Navigator>
+);
 
 // Stack for favorite list product
 const FavoriteStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen 
-        name="FaveriteScreen" 
-        component={FaveriteScreen} 
+    <Stack.Navigator
+      screenOptions={{
+        gestureEnabled: true,
+      }}
+    >
+      <Stack.Screen
+        name="My Wish List"
+        component={FaveriteScreen}
+        options={{
+          headerTitleAlign: "center",
+          gestureEnabled: true,
+        }}
+      />
+      <Stack.Screen
+        name="Detail Product"
+        component={DetailScreen}
+        options={{
+          headerTitleAlign: "center",
+          headerBackTitleVisible: false,
+          gestureEnabled: true,
+        }}
       />
     </Stack.Navigator>
   );
-}
+};
 
-export { HomeStack, DetailStack, FavoriteStack };
+export { HomeStack, FavoriteStack };
