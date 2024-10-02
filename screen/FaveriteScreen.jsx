@@ -5,32 +5,44 @@ import {
   Image,
   ToastAndroid,
   FlatList,
+  RefreshControl,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { AntDesign } from "@expo/vector-icons"; // Ensure you have installed @expo/vector-icons
 import { Rating } from "react-native-ratings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
+
 
 function FaveriteScreen({ navigation }) {
   const [favorites, setFavorites] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const handleProductClick = (product) => {
     console.log("navigate to detail product", product.id);
-    navigation.navigate('Home', {
-      screen: 'Detail Product',
+    navigation.navigate("Home", {
+      screen: "Detail Product",
       params: { productTypeId: product.id },
     });
   };
 
+  const fetchFavorites = async () => {
+    const favorites = await AsyncStorage.getItem("favorites");
+    if (favorites) {
+      setFavorites(JSON.parse(favorites));
+    }
+  };
+
   useEffect(() => {
-    const fetchFavorites = async () => {
-      const favorites = await AsyncStorage.getItem("favorites");
-      if (favorites) {
-        setFavorites(JSON.parse(favorites));
-      }
-    };
     fetchFavorites();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchFavorites();
+    }, [])
+  );
+
 
   const handleRemoveFavorite = async (item) => {
     let favoritesList = favorites.filter((favItem) => favItem.id !== item.id);
@@ -42,6 +54,12 @@ function FaveriteScreen({ navigation }) {
   const handleRemoveAllFavorites = async () => {
     await AsyncStorage.removeItem("favorites");
     setFavorites([]);
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchFavorites();
+    setRefreshing(false);
   };
 
   const renderItem = ({ item }) => {
@@ -144,34 +162,40 @@ function FaveriteScreen({ navigation }) {
     );
   };
 
-  return (
-    <View className="flex-1 py-4">
-      <View className="flex flex-row justify-between px-3 overflow-hidden py-2">
-        <Text className="text-xl font-bold">You have {favorites.length} item</Text>
-        <TouchableOpacity onPress={handleRemoveAllFavorites}>
-          <Text className="text-lg text-red-500">Remove all</Text>
-        </TouchableOpacity>
-      </View>
-      {favorites.length > 0 ? (
-        <FlatList
-          data={favorites}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id?.toString()}
-          numColumns={2}
-          alwaysBounceHorizontal={false}
-          alwaysBounceVertical={true}
-          bounces={true}
-          initialNumToRender={10}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}
-          columnWrapperStyle={{ justifyContent: "space-between" }}
-        />
-      ) : (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-          <Text className="font-bold text-2xl">No items added to list yet.</Text>
-        </View>
-      )}
+  const renderHeader = () => (
+    <View className="flex flex-row justify-between px-3 overflow-hidden py-2">
+      <Text className="text-xl font-bold">You have {favorites.length} item</Text>
+      <TouchableOpacity onPress={handleRemoveAllFavorites}>
+        <Text className="text-lg text-red-500">Remove all</Text>
+      </TouchableOpacity>
     </View>
+  );
+
+  const renderEmptyComponent = () => (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", paddingTop: 300 }}>
+      <Text className="font-bold text-2xl">No items added to list yet.</Text>
+    </View>
+  );
+
+  return (
+    <FlatList
+      data={favorites}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id?.toString()}
+      numColumns={2}
+      alwaysBounceHorizontal={false}
+      alwaysBounceVertical={true}
+      bounces={true}
+      initialNumToRender={10}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+      columnWrapperStyle={{ justifyContent: "space-between" }}
+      ListHeaderComponent={renderHeader}
+      ListEmptyComponent={renderEmptyComponent}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+      }
+    />
   );
 }
 

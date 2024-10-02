@@ -13,6 +13,7 @@ import axios from "axios";
 import CategoryCart from "../components/CategoryCart";
 import ProductCard from "../components/ProductCard";
 import Icon from "react-native-vector-icons/AntDesign";
+import { useFocusEffect } from "@react-navigation/native";
 
 function HomeScreen() {
   const [products, setProducts] = useState([]);
@@ -46,6 +47,13 @@ function HomeScreen() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchProducts();
+    }, [])
+  );
+
 
   useEffect(() => {
     const filtered = products.filter((product) => {

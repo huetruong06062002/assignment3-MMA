@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   ToastAndroid,
+  RefreshControl,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Rating } from "react-native-ratings";
@@ -18,6 +19,7 @@ function DetailScreen({ route, navigation }) {
   const [productDetail, setProductDetail] = useState({});
   const [loading, setLoading] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const fetchProductDetail = async () => {
     setLoading(true);
@@ -65,6 +67,12 @@ function DetailScreen({ route, navigation }) {
     }
   }, [productTypeId]);
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchProductDetail();
+    setRefreshing(false);
+  };
+
   const oldPrice = productDetail.price / (1 - productDetail.limitedTimeDeal);
 
   const formattedOldPrice = new Intl.NumberFormat("en-US", {
@@ -104,7 +112,12 @@ function DetailScreen({ route, navigation }) {
   }
 
   return (
-    <ScrollView className="">
+    <ScrollView
+      className=""
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+      }
+    >
       <Image
         source={{ uri: productDetail.image }}
         style={{ resizeMode: "contain" }}

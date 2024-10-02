@@ -1,5 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { HomeStack, FavoriteStack } from "./StackNavigation";
 import { MaterialIcons } from "@expo/vector-icons";
 import { enableScreens } from 'react-native-screens';
@@ -8,11 +9,10 @@ import CustomTabBar from '../components/CustomTabBar.js';
 
 enableScreens();
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 const TabNavigation = () => {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }} >
       <Tab.Navigator
         tabBar={props => <CustomTabBar {...props} />}
         screenOptions={{
@@ -21,6 +21,7 @@ const TabNavigation = () => {
           unmountOnBlur: true,
           swipeEnabled: true, // Enable swipe gestures 
         }}
+        tabBarPosition="bottom"
       >
         <Tab.Screen
           name="Home"
@@ -39,7 +40,6 @@ const TabNavigation = () => {
           }}
         />
       </Tab.Navigator>
-    </GestureHandlerRootView>
   );
 };
 
