@@ -47,15 +47,6 @@ const FavoriteStack = () => {
           gestureEnabled: true,
         }}
       />
-      <Stack.Screen
-        name="Detail Product"
-        component={DetailScreen}
-        options={{
-          headerTitleAlign: "center",
-          headerBackTitleVisible: false,
-          gestureEnabled: true,
-        }}
-      />
     </Stack.Navigator>
   );
 };

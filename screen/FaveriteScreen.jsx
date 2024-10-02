@@ -15,7 +15,11 @@ function FaveriteScreen({ navigation }) {
   const [favorites, setFavorites] = useState([]);
 
   const handleProductClick = (product) => {
-    navigation.push('Detail Product', { productTypeId: product.id });
+    console.log("navigate to detail product", product.id);
+    navigation.navigate('Home', {
+      screen: 'Detail Product',
+      params: { productTypeId: product.id },
+    });
   };
 
   useEffect(() => {
@@ -141,8 +145,8 @@ function FaveriteScreen({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <View className="flex flex-row justify-between px-3 overflow-hidden py-4">
+    <View className="flex-1 py-4">
+      <View className="flex flex-row justify-between px-3 overflow-hidden py-2">
         <Text className="text-xl font-bold">You have {favorites.length} item</Text>
         <TouchableOpacity onPress={handleRemoveAllFavorites}>
           <Text className="text-lg text-red-500">Remove all</Text>
@@ -152,7 +156,7 @@ function FaveriteScreen({ navigation }) {
         <FlatList
           data={favorites}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id?.toString()}
           numColumns={2}
           alwaysBounceHorizontal={false}
           alwaysBounceVertical={true}
