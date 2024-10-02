@@ -1,10 +1,7 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { HomeStack, FavoriteStack } from "./StackNavigation";
-import { MaterialIcons } from "@expo/vector-icons";
 import { enableScreens } from 'react-native-screens';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CustomTabBar from '../components/CustomTabBar.js'; 
 
 enableScreens();
@@ -19,7 +16,7 @@ const TabNavigation = () => {
           tabBarActiveTintColor: "green",
           tabBarInactiveTintColor: "gray",
           unmountOnBlur: true,
-          swipeEnabled: true, // Enable swipe gestures 
+          swipeEnabled: true,
         }}
         tabBarPosition="bottom"
       >
