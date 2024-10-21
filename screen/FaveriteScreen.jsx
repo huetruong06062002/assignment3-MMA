@@ -166,7 +166,7 @@ function FaveriteScreen({ navigation }) {
     <View className="flex flex-row justify-between px-3 overflow-hidden py-2">
       <Text className="text-xl font-bold">You have {favorites.length} item</Text>
       <TouchableOpacity onPress={handleRemoveAllFavorites}>
-        <Text className="text-lg text-red-500">Remove all</Text>
+        <Text className="text-lg text-red-500">{favorites.length > 0 && "Remove all"}</Text>
       </TouchableOpacity>
     </View>
   );
